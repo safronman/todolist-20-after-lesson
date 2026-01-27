@@ -23,6 +23,7 @@ Prettier is configured in `.prettierrc` (`printWidth: 120`, `semi: false`).
 - Use 2-space indentation and rely on Prettier defaults.
 - Components and slices: PascalCase file names (for example `Header.tsx`, `app-slice.ts`).
 - Hooks: `useXxx` naming in camelCase (for example `useAppDispatch.ts`).
+- CSS modules should be imported as `s`.
 - Prefer feature-local types/utilities in `lib/` and re-export via nearby `index.ts` files when helpful.
 
 ## Testing Guidelines
@@ -42,4 +43,3 @@ This workspace snapshot does not include `.git` history, so follow a clear, cons
 ## Security & Configuration Tips
 - Environment variables live in `.env`. Do not commit secrets.
 - API configuration flows through `src/app/baseApi.ts` and `src/common/instance/instance.ts`; keep changes centralized there.
-

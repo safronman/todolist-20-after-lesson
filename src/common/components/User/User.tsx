@@ -1,4 +1,4 @@
-import styles from "./User.module.css"
+import s from "./User.module.css"
 
 type UserItem = {
   id: string
@@ -17,12 +17,13 @@ export const User = () => {
   ]
 
   return (
-    <div className={styles.list}>
+    // Todo: переименуй на s и внеси в AGENTS.md
+    <div className={s.list}>
       {users.map((user) => (
-        <div key={user.id} className={styles.card}>
-          <div className={styles.name}>{user.name}</div>
-          <div className={styles.meta}>{user.email}</div>
-          <div className={styles.meta}>
+        <div key={user.id} className={s.card}>
+          <div className={s.name}>{user.name}</div>
+          <div className={s.meta}>{user.email}</div>
+          <div className={s.meta}>
             {user.role} - {user.age}
           </div>
         </div>
