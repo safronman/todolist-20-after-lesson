@@ -1,6 +1,6 @@
 import "./App.css"
 import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice"
-import { ErrorSnackbar, Header } from "@/common/components"
+import { ErrorSnackbar, Header, User } from "@/common/components"
 import { ResultCode } from "@/common/enums"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Routing } from "@/common/routing"
@@ -14,7 +14,7 @@ import styles from "./App.module.css"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
-  
+
   const [isInitialized, setIsInitialized] = useState(false)
 
   const { data, isLoading } = useMeQuery()
@@ -44,6 +44,7 @@ export const App = () => {
       <div className={styles.app}>
         <CssBaseline />
         <Header />
+        <User />
         <Routing />
         <ErrorSnackbar />
       </div>
