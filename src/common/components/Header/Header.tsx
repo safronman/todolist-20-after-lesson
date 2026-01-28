@@ -66,7 +66,7 @@ export const Header = () => {
             <NavButton background={theme.palette.primary.dark} component={Link} to={Path.Faq}>
               Faq
             </NavButton>
-            <NavButton background={theme.palette.primary.dark} component={'div'} to={Path.User}>
+            <NavButton background={theme.palette.primary.dark} component={Link} to={Path.User}>
               User
             </NavButton>
             <Switch color={"default"} onChange={changeMode} />
