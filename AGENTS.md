@@ -17,6 +17,7 @@ Use `pnpm` (the lockfile is `pnpm-lock.yaml`).
 - `pnpm build` runs TypeScript project builds (`tsc -b`) and creates a production bundle.
 - `pnpm preview` serves the production build locally.
 - `pnpm test` runs Vitest in watch mode.
+- After implementing a new feature, run `pnpm build` to automatically check for TypeScript errors.
 
 ## Coding Style & Naming Conventions
 Prettier is configured in `.prettierrc` (`printWidth: 120`, `semi: false`).

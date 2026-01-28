@@ -17,7 +17,6 @@ export const User = () => {
   ]
 
   return (
-    // Todo: переименуй на s и внеси в AGENTS.md
     <div className={s.list}>
       {users.map((user) => (
         <div key={user.id} className={s.card}>
