@@ -1,6 +1,6 @@
 import { selectIsLoggedIn } from "@/app/app-slice"
 import { Main } from "@/app/Main"
-import { PageNotFound, ProtectedRoute } from "@/common/components"
+import { PageNotFound, ProtectedRoute, User } from "@/common/components"
 import { useAppSelector } from "@/common/hooks"
 import { Login } from "@/features/auth/ui/Login/Login"
 import { FAQ } from "@/features/faq/ui/FAQ/FAQ"
@@ -10,6 +10,7 @@ export const Path = {
   Main: "/",
   Login: "login",
   Faq: "faq",
+  User: "user",
   NotFound: "*",
 } as const
 
@@ -24,6 +25,7 @@ export const Routing = () => {
       <Route element={<ProtectedRoute isAllowed={!isLoggedIn} />}>
         <Route path={Path.Login} element={<Login />} />
       </Route>
+      <Route path={Path.User} element={<User />} />
       <Route path={Path.Faq} element={<FAQ />} />
       <Route path={Path.NotFound} element={<PageNotFound />} />
     </Routes>
