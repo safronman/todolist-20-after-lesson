@@ -41,6 +41,22 @@ This workspace snapshot does not include `.git` history, so follow a clear, cons
   - Notes on state, API, or routing changes.
   - Screenshots or short clips for UI updates.
 
+## Pull Request Formatting (PR)
+Для читаемости PR следуйте правилам оформления.
+
+### Заголовок PR
+Заголовок должен содержать краткое описание изменений.
+Примеры:
+- `change support table styles`
+- `update ui kit to v1.0.8`
+- `fix enot api`
+
+### Описание PR
+Структура описания:
+1. **Что делает PR?** Кратко и в третьем лице (например: "Исправляет размеры иконок в навигационном меню").
+2. **Ссылка на деплой.** Прикрепите ссылку на страницу с изменениями, если доступна.
+3. **Скриншоты изменений.** Для UI-изменений приложите скриншоты и выделите область изменений.
+
 ## Security & Configuration Tips
 - Environment variables live in `.env`. Do not commit secrets.
 - API configuration flows through `src/app/baseApi.ts` and `src/common/instance/instance.ts`; keep changes centralized there.
