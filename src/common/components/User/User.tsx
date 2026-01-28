@@ -1,4 +1,9 @@
-import s from "./User.module.css"
+import Box from "@mui/material/Box"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import Chip from "@mui/material/Chip"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
 
 type UserItem = {
   id: string
@@ -17,16 +22,35 @@ export const User = () => {
   ]
 
   return (
-    <div className={s.list}>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+        gap: 2,
+        px: { xs: 2, md: 4 },
+        pb: 4,
+      }}
+    >
       {users.map((user) => (
-        <div key={user.id} className={s.card}>
-          <div className={s.name}>{user.name}</div>
-          <div className={s.meta}>{user.email}</div>
-          <div className={s.meta}>
-            {user.role} - {user.age}
-          </div>
-        </div>
+        <Card key={user.id} variant="outlined" sx={{ borderRadius: 2, height: "100%" }}>
+          <CardContent>
+            <Stack spacing={1}>
+              <Typography variant="h6" fontWeight={700}>
+                {user.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {user.email}
+              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                <Chip label={user.role} size="small" color="primary" variant="outlined" />
+                <Typography variant="caption" color="text.secondary">
+                  Age: {user.age}
+                </Typography>
+              </Stack>
+            </Stack>
+          </CardContent>
+        </Card>
       ))}
-    </div>
+    </Box>
   )
 }
