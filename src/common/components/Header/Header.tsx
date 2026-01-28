@@ -61,6 +61,9 @@ export const Header = () => {
           <div>
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
 
+            <NavButton background={theme.palette.primary.dark} component={Link} to={Path.Main}>
+              Main
+            </NavButton>
             <NavButton background={theme.palette.primary.dark} component={Link} to={Path.Faq}>
               Faq
             </NavButton>
