@@ -1,6 +1,7 @@
 import "./App.css"
 import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice"
-import { ErrorSnackbar, Header } from "@/common/components"
+import { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar"
+import { Header } from "@/common/components/Header/Header"
 import { ResultCode } from "@/common/enums"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Routing } from "@/common/routing"
@@ -9,27 +10,25 @@ import { useMeQuery } from "@/features/auth/api/authApi"
 import CircularProgress from "@mui/material/CircularProgress"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo } from "react"
 import styles from "./App.module.css"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
 
-  const [isInitialized, setIsInitialized] = useState(false)
-
   const { data, isLoading } = useMeQuery()
 
   const dispatch = useAppDispatch()
 
-  const theme = getTheme(themeMode)
+  const theme = useMemo(() => getTheme(themeMode), [themeMode])
 
   useEffect(() => {
-    if (isLoading) return
     if (data?.resultCode === ResultCode.Success) {
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))
     }
-    setIsInitialized(true)
-  }, [isLoading])
+  }, [data, dispatch])
+
+  const isInitialized = !isLoading
 
   if (!isInitialized) {
     return (

@@ -13,14 +13,14 @@ type UserItem = {
   age: number
 }
 
-export const User = () => {
-  const users: UserItem[] = [
-    { id: "u1", name: "Ada Lovelace", email: "ada@example.com", role: "Mathematician", age: 36 },
-    { id: "u2", name: "Grace Hopper", email: "grace@example.com", role: "Rear Admiral", age: 85 },
-    { id: "u3", name: "Alan Turing", email: "alan@example.com", role: "Computer Scientist", age: 41 },
-    { id: "u4", name: "Katherine Johnson", email: "katherine@example.com", role: "NASA Analyst", age: 101 },
-  ]
+const USERS: UserItem[] = [
+  { id: "u1", name: "Ada Lovelace", email: "ada@example.com", role: "Mathematician", age: 36 },
+  { id: "u2", name: "Grace Hopper", email: "grace@example.com", role: "Rear Admiral", age: 85 },
+  { id: "u3", name: "Alan Turing", email: "alan@example.com", role: "Computer Scientist", age: 41 },
+  { id: "u4", name: "Katherine Johnson", email: "katherine@example.com", role: "NASA Analyst", age: 101 },
+]
 
+export const User = () => {
   return (
     <Box
       sx={{
@@ -31,7 +31,7 @@ export const User = () => {
         pb: 4,
       }}
     >
-      {users.map((user) => (
+      {USERS.map((user) => (
         <Card key={user.id} variant="outlined" sx={{ borderRadius: 2, height: "100%" }}>
           <CardContent>
             <Stack spacing={1}>

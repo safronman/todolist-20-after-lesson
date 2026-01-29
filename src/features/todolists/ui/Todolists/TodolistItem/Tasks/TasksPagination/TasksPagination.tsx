@@ -1,7 +1,7 @@
 import { PAGE_COUNT } from "@/common/constants"
 import Pagination from "@mui/material/Pagination"
 import Typography from "@mui/material/Typography"
-import { ChangeEvent } from "react"
+import { ChangeEvent, useCallback } from "react"
 import styles from "./TasksPagination.module.css"
 
 type Props = {
@@ -11,9 +11,12 @@ type Props = {
 }
 
 export const TasksPagination = ({ totalCount, page, setPage }: Props) => {
-  const changePage = (_: ChangeEvent<unknown>, page: number) => {
-    setPage(page)
-  }
+  const changePage = useCallback(
+    (_: ChangeEvent<unknown>, page: number) => {
+      setPage(page)
+    },
+    [setPage],
+  )
 
   return (
     <>

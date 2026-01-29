@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField"
-import { type ChangeEvent, useState } from "react"
+import { type ChangeEvent, useCallback, useEffect, useState } from "react"
 
 type Props = {
   value: string
@@ -11,19 +11,27 @@ export const EditableSpan = ({ value, onChange, disabled }: Props) => {
   const [title, setTitle] = useState(value)
   const [isEditMode, setIsEditMode] = useState(false)
 
-  const turnOnEditMode = () => {
+  useEffect(() => {
+    if (!isEditMode) {
+      setTitle(value)
+    }
+  }, [isEditMode, value])
+
+  const turnOnEditMode = useCallback(() => {
     if (disabled) return
     setIsEditMode(true)
-  }
+  }, [disabled])
 
-  const turnOffEditMode = () => {
+  const turnOffEditMode = useCallback(() => {
     setIsEditMode(false)
-    onChange(title)
-  }
+    if (title !== value) {
+      onChange(title)
+    }
+  }, [onChange, title, value])
 
-  const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeTitle = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value)
-  }
+  }, [])
 
   return (
     <>
@@ -35,6 +43,7 @@ export const EditableSpan = ({ value, onChange, disabled }: Props) => {
           onChange={changeTitle}
           onBlur={turnOffEditMode}
           autoFocus
+          disabled={disabled}
         />
       ) : (
         <span onDoubleClick={turnOnEditMode}>{value}</span>

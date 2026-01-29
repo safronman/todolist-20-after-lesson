@@ -1,8 +1,7 @@
-import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice"
+import { setIsLoggedInAC } from "@/app/app-slice"
 import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
-import { useAppDispatch, useAppSelector } from "@/common/hooks"
-import { getTheme } from "@/common/theme"
+import { useAppDispatch } from "@/common/hooks"
 import { useLoginMutation } from "@/features/auth/api/authApi"
 import { type LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,17 +13,16 @@ import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
+import { useTheme } from "@mui/material/styles"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
 
 export const Login = () => {
-  const themeMode = useAppSelector(selectThemeMode)
-
   const [login] = useLoginMutation()
 
   const dispatch = useAppDispatch()
 
-  const theme = getTheme(themeMode)
+  const theme = useTheme()
 
   const {
     register,
@@ -37,14 +35,17 @@ export const Login = () => {
     defaultValues: { email: "", password: "", rememberMe: false },
   })
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    login(data).then((res) => {
-      if (res.data?.resultCode === ResultCode.Success) {
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+    try {
+      const res = await login(data).unwrap()
+      if (res.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true }))
-        localStorage.setItem(AUTH_TOKEN, res.data.data.token)
+        localStorage.setItem(AUTH_TOKEN, res.data.token)
         reset()
       }
-    })
+    } catch {
+      // Errors are handled in baseApi via handleError.
+    }
   }
 
   return (
@@ -78,7 +79,7 @@ export const Login = () => {
               type="password"
               label="Password"
               margin="normal"
-              error={!!errors.email}
+              error={!!errors.password}
               {...register("password")}
             />
             {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}

@@ -8,7 +8,7 @@ export const handleError = (
   result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
 ) => {
   let error = "Some error occurred"
-  
+
   if (result.error) {
     switch (result.error.status) {
       case "FETCH_ERROR":
@@ -35,11 +35,13 @@ export const handleError = (
         break
     }
     api.dispatch(setAppErrorAC({ error }))
+    return
   }
-  
-  if ((result.data as { resultCode: ResultCode }).resultCode === ResultCode.Error) {
-    const messages = (result.data as { messages: string[] }).messages
-    error = messages.length ? messages[0] : error
-    api.dispatch(setAppErrorAC({ error }))
+
+  const data = result.data as { resultCode?: ResultCode; messages?: string[] } | undefined
+
+  if (data?.resultCode === ResultCode.Error) {
+    const message = data.messages?.[0]
+    api.dispatch(setAppErrorAC({ error: message || error }))
   }
 }

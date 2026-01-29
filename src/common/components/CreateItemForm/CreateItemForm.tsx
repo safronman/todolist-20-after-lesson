@@ -24,7 +24,9 @@ export const CreateItemForm = ({ onCreateItem, disabled }: Props) => {
 
   const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value)
-    setError(null)
+    if (error) {
+      setError(null)
+    }
   }
 
   const createItemOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {

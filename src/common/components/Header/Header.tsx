@@ -12,7 +12,6 @@ import { ResultCode } from "@/common/enums"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Path } from "@/common/routing"
 import { containerSx } from "@/common/styles"
-import { getTheme } from "@/common/theme"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import MenuIcon from "@mui/icons-material/Menu"
 import AppBar from "@mui/material/AppBar"
@@ -21,6 +20,8 @@ import IconButton from "@mui/material/IconButton"
 import LinearProgress from "@mui/material/LinearProgress"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
+import { useTheme } from "@mui/material/styles"
+import { useCallback } from "react"
 import { Link } from "react-router"
 
 export const Header = () => {
@@ -32,24 +33,25 @@ export const Header = () => {
 
   const dispatch = useAppDispatch()
 
-  const theme = getTheme(themeMode)
+  const theme = useTheme()
 
-  const changeMode = () => {
+  const changeMode = useCallback(() => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
-  }
+  }, [dispatch, themeMode])
 
-  const logoutHandler = () => {
-    logout()
-      .then((res) => {
-        if (res.data?.resultCode === ResultCode.Success) {
-          dispatch(setIsLoggedInAC({ isLoggedIn: false }))
-          localStorage.removeItem(AUTH_TOKEN)
-        }
-      })
-      .then(() => {
-        dispatch(baseApi.util.invalidateTags(["Todolist", "Task"]))
-      })
-  }
+  const logoutHandler = useCallback(async () => {
+    try {
+      const res = await logout().unwrap()
+      if (res.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+        localStorage.removeItem(AUTH_TOKEN)
+      }
+    } catch {
+      // Errors are handled in baseApi via handleError.
+    } finally {
+      dispatch(baseApi.util.invalidateTags(["Todolist", "Task"]))
+    }
+  }, [dispatch, logout])
 
   return (
     <AppBar position="static" sx={{ mb: "30px" }}>
@@ -69,7 +71,7 @@ export const Header = () => {
             <NavButton background={theme.palette.primary.dark} component={Link} to={Path.User}>
               User
             </NavButton>
-            <Switch color={"default"} onChange={changeMode} />
+            <Switch color={"default"} checked={themeMode === "dark"} onChange={changeMode} />
           </div>
         </Container>
       </Toolbar>
